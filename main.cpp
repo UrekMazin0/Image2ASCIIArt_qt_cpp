@@ -7,7 +7,6 @@
 using namespace std;
 
 bool verification_of_existence(char *filename);
-bool open_image(QImage main_image, char *filename);
 std::string convertToString(char* input, int size);
 void create_ASCII_art(QImage main_image, char *filename);
 
@@ -17,16 +16,16 @@ int main(int argc,char *argv[])
 
     if(argc < 2)
     {
-        cout << "Error: no arguments. " << endl;
+        cerr << "Error: no arguments. " << endl;
         return 0;
     }
 
-    for(int i = 1; i < argc; i++)
+    for(int k = 1; k < argc; k++)
     {
-        if(!verification_of_existence(argv[i]))
+        if(!verification_of_existence(argv[k]))
             return 0;
-        create_ASCII_art(main_image, argv[i]);
-        cout << "Art " << argv[i] << " create" << endl;
+        create_ASCII_art(main_image, argv[k]);
+        cout << "Art " << argv[k] << " create" << endl;
     }
     return 0;
 }
@@ -35,18 +34,7 @@ bool verification_of_existence(char *filename)
 {
     if(!QFile(filename).exists())
     {
-        cout << "\nError: file _" << filename << "_ not exists" << endl;
-        return false;
-    }
-    return true;
-}
-
-bool open_image(QImage main_image, char *filename)
-{
-    main_image.load(filename);
-    if(main_image.isNull())
-    {
-        cout << "Error: failed open file _" << filename << "_" << endl;
+        cerr << "\nError: file _" << filename << "_ not exists" << endl;
         return false;
     }
     return true;
@@ -70,7 +58,7 @@ void create_ASCII_art(QImage main_image, char *filename)
 
     if(main_image.isNull())
     {
-        cout << "Error: failed open file _" << filename << "_" << endl;
+        cerr << "Error: failed open file _" << filename << "_" << endl;
         exit(0);
     }
 
@@ -79,9 +67,9 @@ void create_ASCII_art(QImage main_image, char *filename)
     QFile art(filename_txt);
     art.open(QIODevice::WriteOnly | QIODevice::Text);
 
-    for(int i=0;i < main_image.height();i++)
+    for(int i=0;i < main_image.height(); i++)
     {
-        for(int j=0;j < main_image.width();j++)
+        for(int j=0 ;j < main_image.width(); j++)
         {
             pixel_color = QColor(main_image.pixel(j,i));
             gray_intensity = pixel_color.value();
@@ -139,7 +127,7 @@ void create_ASCII_art(QImage main_image, char *filename)
                 }
                 default:
                 {
-                    cout << "Error: gray_intensity error";
+                    cerr << "Error: gray_intensity error";
                     break;
                 }
             }
